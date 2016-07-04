@@ -1,8 +1,12 @@
 package com.yoleth.poc.network;
 
 
+import com.yoleth.poc.models.response.Tokens;
+import com.yoleth.poc.models.response.User;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -14,11 +18,16 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("oauth/token")
-    Observable<String> tokens(
+    Observable<Tokens> tokens(
             @Header("Authorization")    String authorization,
             @Field("grant_type")        String grant_type,
             @Field("username")          String username,
             @Field("password")          String password
+    );
+
+    @GET("api/user")
+    Observable<User> getUser(
+            @Header("Authorization")    String authorization
     );
 
 }
