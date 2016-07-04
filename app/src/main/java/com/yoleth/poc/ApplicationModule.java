@@ -17,6 +17,7 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -54,6 +55,7 @@ public class ApplicationModule {
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(mContext.getString(R.string.ws_root_url))
                 .client(okHttpClient)
                 .build();
@@ -68,7 +70,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     LoginController provideLoginController(Api api) {
-        return new LoginController(api);
+        return new LoginController(mContext, api);
     }
 
 }

@@ -2,6 +2,7 @@
 <resources>
 
 
-    <string name="ws_root_url">http://www.google.com/</string>
+    <string name="ws_root_url">http://78.192.122.12/wannabet/wannabet-web/web/</string>
+    <string name="ws_header">Basic MV8xbXNxMnhrcG0zejRvNHN3bzQ4b3Nja3Nvd2s4d3NjZ29nd2dnNHdnYzg4a29vOG9jdzpraG9qbjU0b3dsczh3d2NjczA4c2drMDRzc2NvY29rODB3Y3dnd2M4Y2d3d2d3d2Nn</string>
 
 </resources>
