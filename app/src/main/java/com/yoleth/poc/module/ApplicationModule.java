@@ -1,11 +1,12 @@
-package com.yoleth.poc;
+package com.yoleth.poc.module;
 
 import android.content.Context;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.yoleth.poc.controllers.LoginController;
+import com.yoleth.poc.R;
+import com.yoleth.poc.controllers.AccountController;
 import com.yoleth.poc.network.Api;
 import com.yoleth.poc.network.ApiInterceptor;
 
@@ -42,11 +43,11 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient() {
+    OkHttpClient provideOkHttpClient(ApiInterceptor apiInterceptor) {
         return new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(new ApiInterceptor())
+                .addInterceptor(apiInterceptor)
                 .build();
     }
 
@@ -63,14 +64,20 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
+    ApiInterceptor provideApiInterceptor() {
+        return new ApiInterceptor(mContext);
+    }
+
+    @Provides
+    @Singleton
     Api provideApi(Retrofit retrofit) {
         return retrofit.create(Api.class);
     }
 
     @Provides
     @Singleton
-    LoginController provideLoginController(Api api) {
-        return new LoginController(mContext, api);
+    AccountController provideAccountController(Api api) {
+        return new AccountController(mContext, api);
     }
 
 }

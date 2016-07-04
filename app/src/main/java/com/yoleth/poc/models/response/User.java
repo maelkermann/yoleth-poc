@@ -1,12 +1,18 @@
 package com.yoleth.poc.models.response;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by mael on 04/07/16.
  */
-public class User {
+public class User extends RealmObject{
 
+    @PrimaryKey
     private Long id;
+
     private String email;
+
     private String username;
 
     public Long getId() {

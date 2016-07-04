@@ -1,15 +1,13 @@
 package com.yoleth.poc.fragments.login;
 
-import android.database.Observable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.yoleth.poc.MainApplication;
 import com.yoleth.poc.R;
-import com.yoleth.poc.controllers.LoginController;
+import com.yoleth.poc.controllers.AccountController;
 import com.yoleth.poc.core.ContentFragment;
 
 import java.util.concurrent.TimeUnit;
@@ -17,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import dagger.Module;
 import rx.functions.Action1;
 
 /**
@@ -32,7 +29,8 @@ public class LoginFragment extends ContentFragment {
     @BindView(R.id.fragmentLoginPassword) EditText loginPassword;
     @BindView(R.id.fragmentLoginSubmit) Button loginSubmit;
 
-    @Inject LoginController loginController;
+    @Inject
+    AccountController loginController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
