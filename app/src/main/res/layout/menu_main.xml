@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_weight="1"
+    android:fillViewport="true"
+    style="@style/Content">
+
+    <RelativeLayout style="@style/SlidingMenu">
+
+        <LinearLayout style="@style/TransparentContent"
+            android:id="@+id/menuMainTop">
+
+            <RelativeLayout style="@style/menuHeader">
+
+                <ImageView
+                    style="@style/ImageViewBlock"
+                    android:id="@+id/menuMainUserPhoto"/>
+
+                <LinearLayout
+                    style="@style/TransparentContent"
+                    android:layout_toRightOf="@+id/menuMainUserPhoto">
+
+                    <TextView
+                        style="@style/TextViewInColored"
+                        android:id="@+id/menuMainUserLogin"/>
+
+                    <TextView
+                        style="@style/TextViewInColored"
+                        android:id="@+id/menuMainUserEmail"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/menuMainTop"
+            android:gravity="bottom">
+
+            <Button
+                style="@style/mainButton"
+                android:text="@string/logout"
+                android:id="@+id/buttonDisconnect"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
