@@ -29,22 +29,17 @@ public class LoginFragment extends ContentFragment {
     @BindView(R.id.fragmentLoginPassword) EditText loginPassword;
     @BindView(R.id.fragmentLoginSubmit) Button loginSubmit;
 
-    @Inject
-    AccountController loginController;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MainApplication.getComponent().inject(this);
-    }
+    @Inject AccountController accountController;
 
     @Override
     protected void afterCreate() {
 
+        MainApplication.getComponent().inject(this);
+
         RxView.clicks(loginSubmit).debounce(400, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                loginController.login(loginEmail.getText().toString(), loginPassword.getText().toString());
+                accountController.login(loginEmail.getText().toString(), loginPassword.getText().toString());
             }
         });
 

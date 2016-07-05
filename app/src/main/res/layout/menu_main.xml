@@ -13,21 +13,8 @@
 
                 <ImageView
                     style="@style/ImageViewBlock"
-                    android:id="@+id/menuMainUserPhoto"/>
-
-                <LinearLayout
-                    style="@style/TransparentContent"
-                    android:layout_toRightOf="@+id/menuMainUserPhoto">
-
-                    <TextView
-                        style="@style/TextViewInColored"
-                        android:id="@+id/menuMainUserLogin"/>
-
-                    <TextView
-                        style="@style/TextViewInColored"
-                        android:id="@+id/menuMainUserEmail"/>
-
-                </LinearLayout>
+                    android:src="@drawable/logo"
+                    android:layout_height="30dp"/>
 
             </RelativeLayout>
 

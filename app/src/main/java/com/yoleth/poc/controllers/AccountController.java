@@ -11,6 +11,7 @@ import android.util.Pair;
 
 import com.yoleth.poc.R;
 import com.yoleth.poc.activities.LoginActivity;
+import com.yoleth.poc.activities.MainActivity;
 import com.yoleth.poc.models.response.Tokens;
 import com.yoleth.poc.models.response.User;
 import com.yoleth.poc.network.Api;
@@ -74,6 +75,11 @@ public class AccountController {
                     saveTokens(tokensUserPair.first, user.getUsername());
                     saveUser(user);
                     Log.d(TAG, user.getEmail());
+
+                    Intent intent   = new Intent(mContext, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+
                 }
             }, new Action1<Throwable>() {
                 @Override
@@ -81,6 +87,13 @@ public class AccountController {
                     Log.e(TAG, "error : "+throwable.getMessage());
                 }
             });
+
+    }
+
+    public void logout(){
+        Log.d(TAG, "logout");
+
+        handleBadAccessToken(true);
 
     }
 
@@ -124,6 +137,10 @@ public class AccountController {
     }
 
     public String getAccessToken(){
+        return getAccessToken(true);
+    }
+
+    public String getAccessToken(boolean mandatory){
         Log.d(TAG, "get access token");
 
         Account[] accounts  = accountManager.getAccountsByType(AuthConstants.ACCOUNT_TYPE);
@@ -149,11 +166,11 @@ public class AccountController {
                     saveTokens(tokens, accounts[0].name);
                     return Utils.ucfirst(tokens.getToken_type())+" "+tokens.getAccess_token();
                 } catch (IOException e) {
-                    handleBadAccessToken();
+                    handleBadAccessToken(mandatory);
                     Log.e(TAG, "error getting new token, remove account : "+e.getMessage());
                 }
             }else if ( TextUtils.isEmpty(password) ){
-                handleBadAccessToken();
+                handleBadAccessToken(mandatory);
                 Log.e(TAG, "empty refresh token, remove account");
             }else {
                 Log.d(TAG, "valid access token");
@@ -189,11 +206,16 @@ public class AccountController {
 
     }
 
-    private void handleBadAccessToken(){
+    private void handleBadAccessToken(boolean mandatory){
         Log.d(TAG, "handle bad access token");
 
         removeAccounts();
-        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+
+        if ( mandatory ) {
+            Intent intent   = new Intent(mContext, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        }
 
     }
 
