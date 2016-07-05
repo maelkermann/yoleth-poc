@@ -9,6 +9,7 @@ import com.yoleth.poc.R;
 import com.yoleth.poc.controllers.AccountController;
 import com.yoleth.poc.network.Api;
 import com.yoleth.poc.network.ApiInterceptor;
+import com.yoleth.poc.network.ApiNoAuth;
 
 import java.util.concurrent.TimeUnit;
 
@@ -64,8 +65,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    ApiInterceptor provideApiInterceptor() {
-        return new ApiInterceptor(mContext);
+    ApiInterceptor provideApiInterceptor(AccountController controller) {
+        return new ApiInterceptor(controller);
     }
 
     @Provides
@@ -76,7 +77,25 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    AccountController provideAccountController(Api api) {
+    ApiNoAuth provideApiNoAuth(Gson gson) {
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .build();
+
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(mContext.getString(R.string.ws_root_url))
+                .client(okHttpClient)
+                .build()
+                .create(ApiNoAuth.class);
+    }
+
+    @Provides
+    @Singleton
+    AccountController provideAccountController(ApiNoAuth api) {
         return new AccountController(mContext, api);
     }
 
