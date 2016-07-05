@@ -40,15 +40,18 @@ public class ApiInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
 
         Log.d(TAG, "intercept request");
+        String accessToken = mController.getAccessToken();
 
-         Request newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", mController.getAccessToken())
-                    .build();
+        if ( accessToken == null ){
+            return null;
+        }
+
+        Request newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", accessToken)
+                .build();
 
         return chain.proceed(newRequest);
 
     }
-
-
 
 }

@@ -3,12 +3,14 @@ package com.yoleth.poc.controllers;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
 import com.yoleth.poc.R;
+import com.yoleth.poc.activities.LoginActivity;
 import com.yoleth.poc.models.response.Tokens;
 import com.yoleth.poc.models.response.User;
 import com.yoleth.poc.network.Api;
@@ -147,12 +149,12 @@ public class AccountController {
                     saveTokens(tokens, accounts[0].name);
                     return Utils.ucfirst(tokens.getToken_type())+" "+tokens.getAccess_token();
                 } catch (IOException e) {
-                    removeAccounts();
+                    handleBadAccessToken();
                     Log.e(TAG, "error getting new token, remove account : "+e.getMessage());
                 }
             }else if ( TextUtils.isEmpty(password) ){
-                removeAccounts();
-                Log.d(TAG, "empty refresh token, remove account");
+                handleBadAccessToken();
+                Log.e(TAG, "empty refresh token, remove account");
             }else {
                 Log.d(TAG, "valid access token");
                 return Utils.ucfirst(type)+" "+token;
@@ -184,6 +186,15 @@ public class AccountController {
         }else{
             accountManager.removeAccount(account, null, null);
         }
+
+    }
+
+    private void handleBadAccessToken(){
+        Log.d(TAG, "handle bad access token");
+
+        removeAccounts();
+        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+
     }
 
 }
